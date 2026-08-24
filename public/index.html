@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Muna Gold interactive website prototype" />
+  <title>Muna Gold — Gold Saving Made Simple</title>
+  <style>
+    :root{
+      --bg:#0e0d0a;--panel:#171510;--gold:#d7b35d;--gold2:#f3df9e;
+      --text:#f8f2e6;--muted:#aaa397;--line:rgba(215,179,93,.26);
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:var(--bg);color:var(--text)}
+    a{color:inherit;text-decoration:none}
+    button,input{font:inherit}
+    .wrap{width:min(1160px,calc(100% - 32px));margin:auto}
+    nav{display:flex;align-items:center;justify-content:space-between;padding:20px 0;gap:18px}
+    .brand{display:flex;align-items:center;gap:10px;font-weight:850;letter-spacing:.08em}
+    .mark{width:38px;height:38px;border:1px solid var(--gold);border-radius:50%;display:grid;place-items:center;color:var(--gold);font:22px Georgia,serif}
+    .navlinks{display:flex;gap:22px;color:var(--muted);font-size:14px}
+    .btn{border:0;border-radius:999px;padding:13px 20px;min-height:44px;cursor:pointer;font-weight:800}
+    .primary{background:linear-gradient(135deg,var(--gold2),var(--gold));color:#19150c}
+    .ghost{background:transparent;color:var(--text);border:1px solid var(--line)}
+    .hero{display:grid;grid-template-columns:1.15fr .85fr;align-items:center;gap:50px;padding:78px 0}
+    .eyebrow{color:var(--gold);text-transform:uppercase;letter-spacing:.18em;font-weight:800;font-size:12px}
+    h1,h2{font-family:Georgia,"Times New Roman",serif;font-weight:500;letter-spacing:-.04em}
+    h1{font-size:clamp(50px,7vw,88px);line-height:.97;margin:16px 0 20px}
+    h2{font-size:clamp(36px,5vw,54px);margin:0}
+    .gold{color:var(--gold)}
+    .lead{font-size:clamp(17px,2vw,21px);line-height:1.65;color:var(--muted);max-width:650px}
+    .actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}
+    .visual{min-height:400px;display:grid;place-items:center;position:relative}
+    .halo{position:absolute;width:min(390px,88%);aspect-ratio:1;border-radius:50%;background:radial-gradient(circle,rgba(243,223,158,.22),rgba(215,179,93,.07) 48%,transparent 70%)}
+    .coin{width:min(310px,78%);aspect-ratio:1;border-radius:50%;display:grid;place-items:center;position:relative;background:radial-gradient(circle at 34% 28%,#f9e5a7,#d7ad4d 30%,#8b651c 70%,#5b3c0b);box-shadow:0 35px 70px rgba(0,0,0,.35),inset 0 0 0 9px rgba(255,255,255,.08),inset 0 0 0 14px rgba(60,40,5,.22);transform:rotate(-7deg)}
+    .coin b{font:76px/.85 Georgia,serif;color:#56390b}
+    .coin span{display:block;text-align:center;color:#5d400d;text-transform:uppercase;letter-spacing:.16em;font-size:12px;font-weight:900}
+    .section{padding:68px 0}
+    .sectionhead{display:flex;justify-content:space-between;gap:24px;align-items:end;margin-bottom:28px}
+    .sectionhead p{max-width:450px;color:var(--muted);line-height:1.6;margin:0}
+    .calc{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--line);border-radius:28px;overflow:hidden;background:var(--panel)}
+    .controls,.result{padding:34px}
+    .controls{border-right:1px solid var(--line)}
+    .field{margin-bottom:26px}
+    .labelrow{display:flex;justify-content:space-between;align-items:center;gap:14px;margin-bottom:10px;font-weight:800}
+    .value{color:var(--gold)}
+    input[type=range]{width:100%;accent-color:var(--gold)}
+    .presets{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+    .preset{border:1px solid var(--line);background:transparent;color:var(--text);border-radius:999px;padding:9px 13px;cursor:pointer}
+    .preset.active{background:var(--gold);color:#171208;border-color:var(--gold);font-weight:850}
+    .result{display:flex;flex-direction:column;justify-content:center;background:linear-gradient(145deg,rgba(215,179,93,.08),transparent 70%)}
+    .result small{color:var(--muted);text-transform:uppercase;letter-spacing:.13em;font-weight:800}
+    .big{font:clamp(45px,7vw,76px)/1 Georgia,serif;color:var(--gold);margin:10px 0}
+    .metrics{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:22px}
+    .metric{border:1px solid var(--line);border-radius:16px;padding:15px}
+    .metric small{font-size:11px}
+    .metric b{display:block;margin-top:5px;font-size:18px}
+    .note{font-size:12px;color:#918a80;line-height:1.5}
+    .features{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+    .feature{border-top:1px solid var(--line);padding:24px}
+    .num{font:28px Georgia,serif;color:var(--gold)}
+    .feature h3{margin:18px 0 8px}
+    .feature p{margin:0;color:var(--muted);line-height:1.55;font-size:14px}
+    .cta{margin:62px 0 35px;padding:38px;border:1px solid var(--line);border-radius:26px;background:#15130f;display:flex;justify-content:space-between;align-items:center;gap:22px}
+    .cta h3{font:38px Georgia,serif;margin:0 0 8px}
+    .cta p{margin:0;color:var(--muted)}
+    footer{padding:24px 0 40px;color:#817a70;font-size:13px}
+    @media(max-width:800px){
+      .navlinks{display:none}.hero{grid-template-columns:1fr;padding-top:42px}.visual{min-height:340px}
+      .calc{grid-template-columns:1fr}.controls{border-right:0;border-bottom:1px solid var(--line)}
+      .features{grid-template-columns:1fr}.sectionhead{display:block}.sectionhead p{margin-top:12px}.cta{display:block}.cta .btn{margin-top:20px}
+    }
+    @media(max-width:420px){.wrap{width:calc(100% - 22px)}.controls,.result{padding:22px}.metrics{grid-template-columns:1fr}.cta{padding:25px}}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <nav>
+      <div class="brand"><div class="mark">M</div>MUNA GOLD</div>
+      <div class="navlinks"><a href="#why">Why Gold</a><a href="#calculator">Calculator</a><a href="#start">Start</a></div>
+      <a class="btn ghost" href="#calculator">Try Calculator</a>
+    </nav>
+
+    <main>
+      <section class="hero">
+        <div>
+          <div class="eyebrow">Gold saving, made simple</div>
+          <h1>Turn small savings into <span class="gold">real gold.</span></h1>
+          <p class="lead">A modern, beginner-friendly website concept for educating visitors, letting them explore a saving plan and guiding interested people toward the next step.</p>
+          <div class="actions">
+            <a class="btn primary" href="#calculator">Build my gold plan</a>
+            <a class="btn ghost" href="#why">Learn more</a>
+          </div>
+        </div>
+        <div class="visual">
+          <div class="halo"></div>
+          <div class="coin"><div><b>Au</b><span>999.9 Gold</span></div></div>
+        </div>
+      </section>
+
+      <section class="section" id="calculator">
+        <div class="sectionhead">
+          <div><div class="eyebrow">Interactive demo</div><h2>Build your plan.</h2></div>
+          <p>Move the sliders. The result updates immediately. This is the type of interaction we can expand in the real website.</p>
+        </div>
+        <div class="calc">
+          <div class="controls">
+            <div class="field">
+              <div class="labelrow"><label for="monthly">Monthly saving</label><span id="monthlyValue" class="value">RM500</span></div>
+              <input id="monthly" type="range" min="100" max="3000" value="500" step="50">
+              <div class="presets">
+                <button class="preset" data-v="100" type="button">RM100</button>
+                <button class="preset active" data-v="500" type="button">RM500</button>
+                <button class="preset" data-v="1000" type="button">RM1,000</button>
+                <button class="preset" data-v="2000" type="button">RM2,000</button>
+              </div>
+            </div>
+            <div class="field">
+              <div class="labelrow"><label for="years">Saving period</label><span id="yearsValue" class="value">5 years</span></div>
+              <input id="years" type="range" min="1" max="20" value="5" step="1">
+            </div>
+            <p class="note">Prototype assumption only: RM650/g. This is not a live gold quotation or a return projection.</p>
+          </div>
+          <div class="result" aria-live="polite">
+            <small>Illustrative gold accumulated</small>
+            <div class="big"><span id="grams">46.15</span> g</div>
+            <div>from <strong id="total">RM30,000</strong> total contributions</div>
+            <div class="metrics">
+              <div class="metric"><small>Monthly</small><b id="mMetric">RM500</b></div>
+              <div class="metric"><small>Duration</small><b id="dMetric">60 months</b></div>
+              <div class="metric"><small>Sample price</small><b>RM650/g</b></div>
+              <div class="metric"><small>Frequency</small><b>Monthly</b></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="why">
+        <div class="sectionhead">
+          <div><div class="eyebrow">Website strategy</div><h2>Useful, not just pretty.</h2></div>
+          <p>The finished site should educate, build trust and move visitors toward one clear action.</p>
+        </div>
+        <div class="features">
+          <div class="feature"><div class="num">01</div><h3>Educate quickly</h3><p>Short visual explanations for visitors who know almost nothing about gold saving.</p></div>
+          <div class="feature"><div class="num">02</div><h3>Make it interactive</h3><p>Calculators, comparisons and progress tools encourage visitors to engage rather than just read.</p></div>
+          <div class="feature"><div class="num">03</div><h3>Generate leads</h3><p>Strong calls-to-action can later connect directly to WhatsApp or a secure lead form.</p></div>
+        </div>
+      </section>
+
+      <section class="cta" id="start">
+        <div><h3>Ready for the real version?</h3><p>Next we can add your actual branding, WhatsApp, FAQ, about section, product education and lead capture.</p></div>
+        <button class="btn primary" id="demoButton" type="button">Test interaction</button>
+      </section>
+    </main>
+
+    <footer>Muna Gold prototype • Educational demonstration only.</footer>
+  </div>
+
+  <script>
+    (() => {
+      const monthly = document.getElementById('monthly');
+      const years = document.getElementById('years');
+      const fmt = n => 'RM' + Math.round(n).toLocaleString('en-MY');
+      function update(){
+        const m = Number(monthly.value);
+        const y = Number(years.value);
+        const total = m * y * 12;
+        document.getElementById('monthlyValue').textContent = fmt(m);
+        document.getElementById('yearsValue').textContent = y + (y === 1 ? ' year' : ' years');
+        document.getElementById('grams').textContent = (total / 650).toFixed(2);
+        document.getElementById('total').textContent = fmt(total);
+        document.getElementById('mMetric').textContent = fmt(m);
+        document.getElementById('dMetric').textContent = (y * 12) + ' months';
+        document.querySelectorAll('.preset').forEach(b => b.classList.toggle('active', Number(b.dataset.v) === m));
+      }
+      monthly.addEventListener('input', update);
+      years.addEventListener('input', update);
+      document.querySelectorAll('.preset').forEach(b => b.addEventListener('click', () => { monthly.value = b.dataset.v; update(); }));
+      document.getElementById('demoButton').addEventListener('click', () => alert('Website JavaScript is working ✅'));
+      update();
+    })();
+  </script>
+</body>
+</html>
